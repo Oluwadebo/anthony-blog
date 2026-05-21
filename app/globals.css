@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-sans), system-ui, -apple-system, sans-serif;
+  --font-serif: var(--font-serif), Georgia, Cambria, serif;
+  
+  --color-primary-m3: #4f378a;
+  --color-primary-m3-container: #6750a4;
+  --color-on-primary-m3-container: #e0d2ff;
+  --color-surface-lavender: #fdf7ff;
+  --color-emerald-accent: #10b981;
+}
+
+@layer utilities {
+  .serif-content p {
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+  }
+}

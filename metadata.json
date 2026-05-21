@@ -1,0 +1,6 @@
+{
+  "name": "PublisherCMS",
+  "description": "A professional-grade Content Management System (CMS) and dashboard featuring visual analytics, interactive blog feeds, details view with active comments, and an AI-powered content outline assistant.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
