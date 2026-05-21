@@ -148,7 +148,7 @@ export default function PublicSinglePostView({ params }: { params: any }) {
       </div>
 
       {/* Cinematic Cover Image Panel */}
-      <div className="relative aspect-[21/9] w-full rounded-3xl overflow-hidden bg-neutral-950 border border-neutral-850">
+      <div className="relative aspect-[16/9] md:aspect-[21/9] w-full rounded-2xl md:rounded-3xl overflow-hidden bg-neutral-950 border border-neutral-850">
         <img
           src={post.imageUrl || "https://picsum.photos/seed/editorial/1200/600"}
           alt={post.title}
@@ -170,12 +170,12 @@ export default function PublicSinglePostView({ params }: { params: any }) {
           </span>
         </div>
 
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
+        <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
           {post.title}
         </h1>
 
         {/* Post Briefing */}
-        <p className="text-lg text-neutral-350 italic border-l-2 border-emerald-500 pl-4 py-1 leading-relaxed">
+        <p className="text-base sm:text-lg text-neutral-350 italic border-l-2 border-emerald-500 pl-4 py-1 leading-relaxed">
           {post.description}
         </p>
 
@@ -212,17 +212,19 @@ export default function PublicSinglePostView({ params }: { params: any }) {
       {/* Styled Rich Text Content Block */}
       <div 
         className="font-serif text-neutral-300 leading-relaxed text-base sm:text-lg select-text
-          [&_p]:mb-6 [&_p]:leading-relaxed
-          [&_h1]:text-3xl [&_h1]:font-sans [&_h1]:font-extrabold [&_h1]:text-white [&_h1]:mt-10 [&_h1]:mb-4
-          [&_h2]:text-2xl [&_h2]:font-sans [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-10 [&_h2]:mb-4
-          [&_h3]:text-xl [&_h3]:font-sans [&_h3]:font-semibold [&_h3]:text-white [&_h3]:mt-8 [&_h3]:mb-3
-          [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-6 [&_ul]:space-y-2
-          [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-6 [&_ol]:space-y-2
-          [&_li]:text-neutral-350
-          [&_strong]:text-white [&_strong]:font-semibold
-          [&_a]:text-emerald-400 [&_a]:underline
-          [&_blockquote]:border-l-4 [&_blockquote]:border-emerald-500 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-neutral-400 [&_blockquote]:my-6
-          [&_pre]:bg-neutral-900 [&_pre]:p-4 [&_pre]:rounded-xl [&_pre]:font-mono [&_pre]:text-sm [&_pre]:overflow-x-auto [&_pre]:border [&_pre]:border-neutral-850 [&_pre]:my-6"
+          prose prose-neutral prose-invert max-w-none
+          prose-p:leading-relaxed prose-p:mb-6
+          prose-headings:text-white prose-headings:font-sans prose-headings:font-extrabold prose-headings:tracking-tight
+          prose-h1:text-2xl sm:prose-h1:text-3xl md:prose-h1:text-4xl prose-h1:mt-10 prose-h1:mb-4
+          prose-h2:text-xl sm:prose-h2:text-2xl md:prose-h2:text-3xl prose-h2:mt-10 prose-h2:mb-4
+          prose-h3:text-lg sm:prose-h3:text-xl md:prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-3
+          prose-ul:list-disc prose-ul:pl-6 prose-ul:mb-6
+          prose-ol:list-decimal prose-ol:pl-6 prose-ol:mb-6
+          prose-li:text-neutral-300
+          prose-strong:text-white prose-strong:font-bold
+          prose-a:text-emerald-400 prose-a:underline hover:prose-a:text-emerald-300
+          prose-blockquote:border-l-4 prose-blockquote:border-emerald-500 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-neutral-400 prose-blockquote:my-6
+          prose-pre:bg-neutral-900 prose-pre:p-4 prose-pre:rounded-xl prose-pre:font-mono prose-pre:text-sm prose-pre:overflow-x-auto prose-pre:border prose-pre:border-neutral-850 prose-pre:my-6"
         dangerouslySetInnerHTML={{ __html: post.content }}
       />
 
