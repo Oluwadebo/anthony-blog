@@ -1,5 +1,5 @@
 {
-  "name": "anthony-blog",
+  "name": "ai-studio-applet",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,7 +7,6 @@
     "build:backend": "cd backend && tsc",
     "build": "npm run build:backend && next build",
     "dev:backend": "cd backend && npm run dev",
-    "dev:frontend": "next dev",
     "dev": "concurrently -n \"backend,frontend\" -c \"blue,green\" \"npm run dev:backend\" \"next dev\"",
     "start:backend": "cd backend && npm run start",
     "start": "concurrently -n \"backend,frontend\" -c \"blue,green\" \"npm run start:backend\" \"next start\"",
