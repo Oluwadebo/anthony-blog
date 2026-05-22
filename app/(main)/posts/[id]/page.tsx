@@ -126,7 +126,7 @@ export default function PublicSinglePostView({ params }: { params: any }) {
   }
 
   return (
-    <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 animate-fade-in pb-24 font-sans select-text">
+    <article className="max-w-3xl mx-auto space-y-10 animate-fade-in pb-24 font-sans select-text">
       
       {/* Return Navigation Anchor */}
       <div className="flex items-center justify-between">
