@@ -5,19 +5,19 @@ import Footer from "../../components/Footer";
 async function getSiteName(): Promise<string> {
   const defaultName = "Anthony Blog";
   const publicApiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const apiUrl = publicApiUrl || "http://localhost:5000/api";
-  
+  const apiUrl = publicApiUrl || "http://localhost:5000/api" || "https://anthony-blog-dpl6.onrender.com/api";
+
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 2000);
-    
+
     const res = await fetch(`${apiUrl}/settings`, {
       signal: controller.signal,
       next: { revalidate: 30 } // Cache results for 30 seconds
     });
-    
+
     clearTimeout(timeoutId);
-    
+
     if (res.ok) {
       const data = await res.json();
       if (data && data.success && data.settings && data.settings.siteName) {

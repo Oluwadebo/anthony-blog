@@ -14,21 +14,17 @@ import mediaRoutes from "./routes/mediaRoutes";
 import settingsRoutes from "./routes/settingsRoutes";
 import { globalErrorHandler } from "./middleware/errorMiddleware";
 
-// Load environment variables
 dotenv.config();
 
-// Initialize the Express Application
 const app: Application = express();
 
-// Determine configuration values
 const PORT = process.env.PORT || 5000;
 
-// Security Middleware (Helmet sets HTTP headers for securing Express applications)
 app.use(helmet());
 
 // Cross-Origin Resource Sharing settings
 const allowedOrigins = [
-  "http://localhost:3000",
+  process.env.FRONTEND_URL || "http://localhost:3000",
   "http://127.0.0.1:3000"
 ];
 

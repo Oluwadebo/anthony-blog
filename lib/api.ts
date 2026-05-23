@@ -1,13 +1,17 @@
 // /frontend/src/lib/api.ts
 
 const isServer = typeof window === "undefined";
-const BASE_URL = isServer
-  ? (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api")
-  : "/api";
+// const API_BASE_URL = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
 
-/**
- * Custom Error Class for API responses
- */
+// const BASE_URL = isServer
+//   ? process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api"
+//   : "/api";
+
+const SERVER_API_URL = process.env.API_BASE_URL || "http://localhost:5000/api" || "https://anthony-blog-dpl6.onrender.com/api";
+
+// Client-side calls should always use the proxy (relative path)
+const BASE_URL = isServer ? SERVER_API_URL : "/api";
+
 export class APIError extends Error {
   public status: number;
   public details?: any;
@@ -29,7 +33,10 @@ export const getAuthToken = (): string | null => {
     try {
       return localStorage.getItem("token");
     } catch (error) {
-      console.error("[API Get Token Exception]: Failed to read token from localStorage.", error);
+      console.error(
+        "[API Get Token Exception]: Failed to read token from localStorage.",
+        error,
+      );
       return null;
     }
   }
@@ -44,7 +51,10 @@ export const setAuthToken = (token: string): void => {
     try {
       localStorage.setItem("token", token);
     } catch (error) {
-      console.error("[API Set Token Exception]: Failed to write token to localStorage.", error);
+      console.error(
+        "[API Set Token Exception]: Failed to write token to localStorage.",
+        error,
+      );
     }
   }
 };
@@ -57,7 +67,10 @@ export const removeAuthToken = (): void => {
     try {
       localStorage.removeItem("token");
     } catch (error) {
-      console.error("[API Remove Token Exception]: Failed to remove token from localStorage.", error);
+      console.error(
+        "[API Remove Token Exception]: Failed to remove token from localStorage.",
+        error,
+      );
     }
   }
 };
@@ -69,11 +82,20 @@ interface RequestOptions extends RequestInit {
 /**
  * Base fetch client wrapper with automatic authorization and error interception.
  */
-async function request<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
-  const { bypassToken = false, headers: customHeaders, ...remainingOptions } = options;
+async function request<T>(
+  endpoint: string,
+  options: RequestOptions = {},
+): Promise<T> {
+  const {
+    bypassToken = false,
+    headers: customHeaders,
+    ...remainingOptions
+  } = options;
 
   // Build the target absolute URL
-  const targetUrl = endpoint.startsWith("http") ? endpoint : `${BASE_URL.replace(/\/$/, "")}/${endpoint.replace(/^\//, "")}`;
+  const targetUrl = endpoint.startsWith("http")
+    ? endpoint
+    : `${BASE_URL.replace(/\/$/, "")}/${endpoint.replace(/^\//, "")}`;
 
   // Initialize unified headers signature
   const headers = new Headers(customHeaders);
@@ -87,7 +109,10 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
   }
 
   // Set Content-Type default as application/json unless sending multipart form-data (which needs native boundary)
-  if (!(remainingOptions.body instanceof FormData) && !headers.has("Content-Type")) {
+  if (
+    !(remainingOptions.body instanceof FormData) &&
+    !headers.has("Content-Type")
+  ) {
     headers.set("Content-Type", "application/json");
   }
 
@@ -115,7 +140,7 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
         responseData?.error ||
         responseData?.message ||
         `Request completed with status code ${response.status}`;
-      
+
       throw new APIError(errorMessage, response.status, responseData);
     }
 
@@ -124,13 +149,14 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
     if (error instanceof APIError) {
       throw error;
     }
-    
+
     // Catch-all connection failures (CORS boundary blockages, server power downs)
     console.error(`[API Fetch Client Exception] URL: ${targetUrl}`, error);
     throw new APIError(
-      error.message || "A network error occurred. Please verify your connection to our publishing services.",
+      error.message ||
+        "A network error occurred. Please verify your connection to our publishing services.",
       500,
-      error
+      error,
     );
   }
 }
@@ -143,13 +169,23 @@ export const api = {
     request<T>(endpoint, { method: "GET", ...options }),
 
   post: <T>(endpoint: string, body?: any, options?: RequestOptions) => {
-    const formattedBody = body instanceof FormData ? body : JSON.stringify(body);
-    return request<T>(endpoint, { method: "POST", body: formattedBody, ...options });
+    const formattedBody =
+      body instanceof FormData ? body : JSON.stringify(body);
+    return request<T>(endpoint, {
+      method: "POST",
+      body: formattedBody,
+      ...options,
+    });
   },
 
   put: <T>(endpoint: string, body?: any, options?: RequestOptions) => {
-    const formattedBody = body instanceof FormData ? body : JSON.stringify(body);
-    return request<T>(endpoint, { method: "PUT", body: formattedBody, ...options });
+    const formattedBody =
+      body instanceof FormData ? body : JSON.stringify(body);
+    return request<T>(endpoint, {
+      method: "PUT",
+      body: formattedBody,
+      ...options,
+    });
   },
 
   delete: <T>(endpoint: string, options?: RequestOptions) =>
