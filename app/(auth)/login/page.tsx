@@ -1,17 +1,20 @@
 // /app/login/page.tsx
 "use client";
 
+import { ArrowRight, Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react";
+import Link from "next/link";
 import * as React from "react";
-import { Mail, Lock, Eye, EyeOff, Loader2, ArrowRight } from "lucide-react";
 import { useAuth } from "../../../hooks/useAuth";
 
 export default function LoginPage() {
   const { login, error, clearError, isLoading, user } = useAuth();
-  
+
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
-  const [validationError, setValidationError] = React.useState<string | null>(null);
+  const [validationError, setValidationError] = React.useState<string | null>(
+    null,
+  );
   const [loginSuccess, setLoginSuccess] = React.useState(false);
 
   // Clear errors on change
@@ -38,7 +41,7 @@ export default function LoginPage() {
       setValidationError("Please enter your account email address.");
       return;
     }
-    
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setValidationError("Please enter a valid email format.");
@@ -60,7 +63,7 @@ export default function LoginPage() {
       await login(email.trim(), password);
       // Success triggers dynamic UI completion before redirection state
       setLoginSuccess(true);
-      
+
       // Delay redirection slightly so user sees success feedback
       setTimeout(() => {
         if (typeof window !== "undefined") {
@@ -88,10 +91,14 @@ export default function LoginPage() {
     <div className="min-h-screen bg-neutral-950 flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-sans antialiased text-white selection:bg-emerald-500/30 selection:text-emerald-300">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         {/* Abstract brand icon */}
-        <div className="mx-auto h-12 w-12 rounded-xl bg-gradient-to-tr from-emerald-600 to-emerald-400 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.3)] border border-emerald-400/20">
-          <span className="font-mono text-xl font-black text-neutral-950">A</span>
-        </div>
-        
+        <Link href="/">
+          <div className="mx-auto h-12 w-12 rounded-xl bg-gradient-to-tr from-emerald-600 to-emerald-400 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.3)] border border-emerald-400/20">
+            <span className="font-mono text-xl font-black text-neutral-950">
+              A
+            </span>
+          </div>
+        </Link>
+
         <h2 className="mt-6 text-sm font-mono tracking-widest text-emerald-400 uppercase">
           PUBLISHER CMS GATEWAY
         </h2>
@@ -118,14 +125,22 @@ export default function LoginPage() {
 
           {loginSuccess && (
             <div className="mb-6 p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-emerald-300 text-sm flex flex-col gap-1">
-              <span className="font-semibold text-emerald-200">Access Granted</span>
-              <span>Session verified securely. Directing to admin dashboard modules...</span>
+              <span className="font-semibold text-emerald-200">
+                Access Granted
+              </span>
+              <span>
+                Session verified securely. Directing to admin dashboard
+                modules...
+              </span>
             </div>
           )}
 
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="email" className="block text-xs font-mono tracking-wider text-neutral-400 uppercase">
+              <label
+                htmlFor="email"
+                className="block text-xs font-mono tracking-wider text-neutral-400 uppercase"
+              >
                 Admin Email Address
               </label>
               <div className="mt-1.5 relative rounded-lg shadow-sm">
@@ -147,7 +162,10 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-xs font-mono tracking-wider text-neutral-400 uppercase">
+              <label
+                htmlFor="password"
+                className="block text-xs font-mono tracking-wider text-neutral-400 uppercase"
+              >
                 Secure Passkey
               </label>
               <div className="mt-1.5 relative rounded-lg shadow-sm">
@@ -170,7 +188,11 @@ export default function LoginPage() {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center text-neutral-500 hover:text-neutral-300 focus:outline-none"
                 >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
                 </button>
               </div>
             </div>
@@ -184,13 +206,19 @@ export default function LoginPage() {
                   defaultChecked
                   className="h-4 w-4 text-emerald-500 focus:ring-emerald-500/30 border-neutral-850 rounded bg-neutral-950"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-xs text-neutral-400 font-sans select-none">
+                <label
+                  htmlFor="remember-me"
+                  className="ml-2 block text-xs text-neutral-400 font-sans select-none"
+                >
                   Keep terminal session authorized
                 </label>
               </div>
 
               <div className="text-xs">
-                <a href="#" className="font-mono text-neutral-500 hover:text-neutral-300 transition-colors">
+                <a
+                  href="#"
+                  className="font-mono text-neutral-500 hover:text-neutral-300 transition-colors"
+                >
                   Lost Key?
                 </a>
               </div>

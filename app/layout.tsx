@@ -3,7 +3,9 @@ import type { Metadata } from "next";
 import { Inter, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "../context/AuthContext";
+import { SiteProvider } from "../context/siteprovide";
 import { ThemeProvider } from "next-themes";
+import { getSiteName } from "@/lib/api";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,11 +24,12 @@ export const metadata: Metadata = {
   description: "A dark-themed, sleek publishing medium. Secure administrative dashboard, image-uploader module, and fully responsive blog nodes.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const siteName = await getSiteName();
   return (
     <html
       lang="en"
@@ -36,7 +39,9 @@ export default function RootLayout({
       <body suppressHydrationWarning className="bg-neutral-950 text-neutral-100 min-h-screen flex flex-col font-sans transition-colors duration-300">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <AuthProvider>
-            {children}
+            <SiteProvider initialName={siteName}>
+              {children}
+            </SiteProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>

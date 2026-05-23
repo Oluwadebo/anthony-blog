@@ -18,6 +18,7 @@ import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "../hooks/useAuth";
+import { useSite } from "../context/siteprovide";
 
 const navLinks = [
   { name: "Stories", href: "/" },
@@ -25,15 +26,11 @@ const navLinks = [
   { name: "About", href: "#about" },
 ];
 
-export default function Navbar({
-  siteName: initialSiteName = "Anthony Blog",
-}: {
-  siteName?: string;
-}) {
+export default function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
-  const [siteName] = React.useState(initialSiteName);
+  const { siteName, updateSiteName } = useSite();
 
   const { theme, setTheme } = useTheme();
   const pathname = usePathname();

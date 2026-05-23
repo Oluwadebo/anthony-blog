@@ -7,7 +7,7 @@ const isServer = typeof window === "undefined";
 //   ? process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api"
 //   : "/api";
 
-const SERVER_API_URL = process.env.API_BASE_URL || "http://localhost:5000/api" || "https://anthony-blog-dpl6.onrender.com/api";
+const SERVER_API_URL = process.env.API_BASE_URL || "https://anthony-blog-dpl6.onrender.com/api" || "http://localhost:5000/api" ;
 
 // Client-side calls should always use the proxy (relative path)
 const BASE_URL = isServer ? SERVER_API_URL : "/api";
@@ -191,3 +191,25 @@ export const api = {
   delete: <T>(endpoint: string, options?: RequestOptions) =>
     request<T>(endpoint, { method: "DELETE", ...options }),
 };
+
+
+// lib/api.ts
+
+export async function getSiteName(): Promise<string> {
+  const defaultName = "Anthony Blog";
+  const apiBase = process.env.API_BASE_URL || "https://anthony-blog-dpl6.onrender.com" || "http://localhost:5000";
+
+  try {
+    const res = await fetch(`${apiBase}/api/settings`, {
+      next: { revalidate: 30 },
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch settings");
+
+    const data = await res.json();
+    return data?.settings?.siteName || defaultName;
+  } catch (error) {
+    console.error("Failed to retrieve siteName:", error);
+    return defaultName;
+  }
+}
