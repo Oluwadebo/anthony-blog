@@ -3,14 +3,14 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { 
-  ArrowLeft, 
-  Calendar, 
-  Eye, 
-  BookOpen, 
-  User, 
-  Tag, 
-  Loader2, 
+import {
+  ArrowLeft,
+  Calendar,
+  Eye,
+  BookOpen,
+  User,
+  Tag,
+  Loader2,
   Share2,
   Clock,
   ThumbsUp
@@ -59,10 +59,10 @@ export default function PublicSinglePostView({ params }: { params: any }) {
       try {
         setIsLoading(true);
         setErrorMsg(null);
-        
+
         // Fetch article by ID (The server automatically increments view count)
         const response = await api.get<any>(`/blogs/${postId}`);
-        
+
         if (active) {
           if (response && response.data) {
             setPost(response.data);
@@ -126,8 +126,8 @@ export default function PublicSinglePostView({ params }: { params: any }) {
   }
 
   return (
-    <article className="max-w-3xl mx-auto space-y-10 animate-fade-in pb-24 font-sans select-text">
-      
+    <article className="w-full max-w-3xl mx-auto space-y-8 sm:space-y-10 animate-fade-in pb-24 font-sans select-text overflow-hidden">
+
       {/* Return Navigation Anchor */}
       <div className="flex items-center justify-between">
         <Link
@@ -210,7 +210,7 @@ export default function PublicSinglePostView({ params }: { params: any }) {
       </div>
 
       {/* Styled Rich Text Content Block */}
-      <div 
+      <div
         className="font-serif text-neutral-300 leading-relaxed text-base sm:text-lg select-text
           prose prose-neutral prose-invert max-w-none
           prose-p:leading-relaxed prose-p:mb-6
@@ -222,9 +222,12 @@ export default function PublicSinglePostView({ params }: { params: any }) {
           prose-ol:list-decimal prose-ol:pl-6 prose-ol:mb-6
           prose-li:text-neutral-300
           prose-strong:text-white prose-strong:font-bold
-          prose-a:text-emerald-400 prose-a:underline hover:prose-a:text-emerald-300
+          prose-a:text-emerald-400 prose-a:underline hover:prose-a:text-emerald-300 prose-a:break-all
           prose-blockquote:border-l-4 prose-blockquote:border-emerald-500 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-neutral-400 prose-blockquote:my-6
-          prose-pre:bg-neutral-900 prose-pre:p-4 prose-pre:rounded-xl prose-pre:font-mono prose-pre:text-sm prose-pre:overflow-x-auto prose-pre:border prose-pre:border-neutral-850 prose-pre:my-6"
+          prose-pre:bg-neutral-900 prose-pre:p-4 prose-pre:rounded-xl prose-pre:font-mono prose-pre:text-sm prose-pre:overflow-x-auto prose-pre:border prose-pre:border-neutral-850 prose-pre:my-6 prose-pre:max-w-full
+          prose-table:overflow-x-auto prose-table:block prose-table:max-w-full
+          prose-img:max-w-full prose-img:h-auto prose-img:rounded-xl
+          w-full max-w-full overflow-hidden break-words"
         dangerouslySetInnerHTML={{ __html: post.content }}
       />
 
@@ -232,7 +235,7 @@ export default function PublicSinglePostView({ params }: { params: any }) {
       {post.tags && post.tags.length > 0 && (
         <div className="flex flex-wrap gap-2 pt-8 border-t border-neutral-900">
           {post.tags.map((tag) => (
-            <span 
+            <span
               key={tag}
               className="inline-flex items-center gap-1 px-3 py-1 bg-neutral-900 border border-neutral-850 hover:border-neutral-750 text-neutral-400 rounded-full text-xs font-mono select-none"
             >
@@ -244,7 +247,7 @@ export default function PublicSinglePostView({ params }: { params: any }) {
       )}
 
       {/* Outro recommendation segment */}
-      <div className="mt-16 p-8 rounded-3xl bg-gradient-to-tr from-neutral-900 to-neutral-950 border border-neutral-850 text-center space-y-4">
+      <div className="mt-16 p-6 sm:p-8 rounded-3xl bg-gradient-to-tr from-neutral-900 to-neutral-950 border border-neutral-850 text-center space-y-4">
         <h3 className="text-lg font-bold text-white">Appreciated this read?</h3>
         <p className="text-neutral-400 text-sm max-w-md mx-auto">
           Help spread knowledge. Share this secure decoupled CMS node or head back to browse other technical guidelines in our library.

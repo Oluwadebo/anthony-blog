@@ -22,10 +22,11 @@ const nextConfig: NextConfig = {
   output: "standalone",
   transpilePackages: ["motion"],
   async rewrites() {
+    const apiBase = process.env.API_BASE_URL || "http://localhost:5000";
     return [
       {
         source: "/api/:path*",
-       destination: `${process.env.API_BASE_URL}/api/:path*`,
+       destination: `${apiBase}/api/:path*`,
       },
     ];
   },

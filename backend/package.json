@@ -1,5 +1,5 @@
 {
-  "name": "publishercms-backend",
+  "name": "anthonyblog-backend",
   "version": "1.0.0",
   "description": "Professional-grade decoupled Express backend for PublisherCMS",
   "main": "dist/server.js",
