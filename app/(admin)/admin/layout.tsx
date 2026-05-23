@@ -1,24 +1,27 @@
-// /app/(admin)/layout.tsx
+// /app/admin/layout.tsx
 "use client";
 
-import * as React from "react";
-import { useRouter, usePathname } from "next/navigation";
-import Link from "next/link";
-import { 
-  LayoutDashboard, 
-  FileText, 
-  Upload, 
-  LogOut, 
-  Menu, 
-  X, 
+import {
+  ExternalLink,
+  FileText,
+  LayoutDashboard,
+  LogOut,
+  Menu,
+  Settings,
   Shield,
-  ArrowLeft,
-  Settings
+  X,
 } from "lucide-react";
-import { useAuth } from "../../hooks/useAuth";
-import ProtectedRoute from "../../components/ProtectedRoute";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import * as React from "react";
+import ProtectedRoute from "../../../components/ProtectedRoute";
+import { useAuth } from "../../../hooks/useAuth";
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const { user, logout } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
@@ -41,11 +44,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       path: "/admin/posts",
       icon: FileText,
     },
-    {
-      name: "Media Upload",
-      path: "/admin/media",
-      icon: Upload,
-    },
+    // {
+    //   name: "Media Upload",
+    //   path: "/admin/media",
+    //   icon: Upload,
+    // },
     {
       name: "Settings",
       path: "/admin/settings",
@@ -56,7 +59,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <ProtectedRoute>
       <div className="min-h-screen bg-neutral-950 text-neutral-100 font-sans antialiased flex flex-col md:flex-row">
-        
         {/* Mobile Header Top Navigation Panel */}
         <header className="md:hidden flex items-center justify-between px-6 py-4 bg-neutral-900 border-b border-neutral-850 z-30 sticky top-0">
           <div className="flex items-center gap-2">
@@ -67,13 +69,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               ANTHONY CMS
             </span>
           </div>
-          
+
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 text-neutral-400 hover:text-white hover:bg-neutral-850 rounded-lg focus:outline-none transition-colors"
             aria-label="Toggle navigation menu"
           >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {mobileMenuOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
           </button>
         </header>
 
@@ -89,7 +95,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div>
             <div className="h-16 flex items-center gap-3 px-6 border-b border-neutral-850/50">
               <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-emerald-400 flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.25)] border border-emerald-400/15 group-hover:scale-102 transition-transform">
-                <span className="font-mono text-base font-black text-neutral-950">A</span>
+                <span className="font-mono text-base font-black text-neutral-950">
+                  A
+                </span>
               </div>
               <div className="flex flex-col">
                 <span className="font-mono text-xs font-bold tracking-widest text-emerald-400 leading-none">
@@ -116,15 +124,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     }}
                     className={`
                       w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all group duration-200 text-left
-                      ${isActive 
-                        ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/15 shadow-[inset_0_1px_1px_rgba(16,185,129,0.1)]" 
-                        : "text-neutral-400 hover:text-neutral-200 hover:bg-neutral-850/50 border border-transparent"}
+                      ${
+                        isActive
+                          ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/15 shadow-[inset_0_1px_1px_rgba(16,185,129,0.1)]"
+                          : "text-neutral-400 hover:text-neutral-200 hover:bg-neutral-850/50 border border-transparent"
+                      }
                     `}
                   >
-                    <IconComponent className={`
+                    <IconComponent
+                      className={`
                       h-4 w-4 transition-transform group-hover:scale-105 duration-200
                       ${isActive ? "text-emerald-400" : "text-neutral-500 group-hover:text-neutral-300"}
-                    `} />
+                    `}
+                    />
                     <span>{item.name}</span>
                   </button>
                 );
@@ -132,7 +144,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </nav>
           </div>
 
-          {/* Bottom user credentials panel with Sign Out & Return to Public Site buttons */}
+          {/* Bottom user credentials panel with Sign Out button */}
           <div className="p-4 border-t border-neutral-850/50 space-y-4">
             <div className="flex items-center gap-3 px-3 py-2 bg-neutral-950/40 rounded-xl border border-neutral-850/30">
               <div className="h-8 w-8 rounded-full bg-neutral-800 flex items-center justify-center border border-neutral-700">
@@ -140,7 +152,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               </div>
               <div className="flex flex-col min-w-0">
                 <span className="text-xs font-semibold text-neutral-200 truncate font-sans">
-                  {user?.email || "ogunwedebo21@gmail.com"}
+                  {user?.email || "admin@gmail.com"}
                 </span>
                 <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider leading-none mt-0.5">
                   {user?.role || "SYSTEM ADMIN"}
@@ -153,15 +165,27 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 href="/"
                 className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/5 transition-all group"
               >
-                <ArrowLeft className="h-4 w-4 text-emerald-500 group-hover:-translate-x-0.5 transition-transform" />
+                {/* <ArrowLeft className="h-4 w-4 text-emerald-500 group-hover:-translate-x-0.5 transition-transform" /> */}
+                <ExternalLink className="h-3 w-3" />
                 <span>Return to Public Site</span>
               </Link>
+              {/* <a
+                href="/"
+                target="_blank"
+                className="w-full flex items-center justify-between px-4 py-2 text-xs font-medium text-neutral-500 hover:text-neutral-300 hover:bg-neutral-850/30 rounded-lg transition-colors group"
+              >
+                <span className="flex items-center gap-2">
+                  <ExternalLink className="h-3 w-3" />
+                  View Live Site
+                </span>
+                <span className="text-[9px] font-mono text-neutral-600 group-hover:text-neutral-400 transition-colors">PUBLIC</span>
+              </a> */}
 
               <button
                 onClick={handleLogout}
-                className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/50 transition-all group"
+                className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold text-red-400 hover:text-red-300 hover:bg-red-500/5 transition-all group"
               >
-                <LogOut className="h-4 w-4 text-neutral-500 group-hover:text-neutral-300 transition-colors" />
+                <LogOut className="h-4 w-4 text-red-500/80 group-hover:text-red-400 transition-colors" />
                 <span>Disconnect Terminal</span>
               </button>
             </div>
@@ -182,7 +206,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {children}
           </div>
         </main>
-
       </div>
     </ProtectedRoute>
   );

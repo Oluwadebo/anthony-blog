@@ -3,19 +3,20 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { 
-  Eye, 
-  Calendar, 
-  BookOpen, 
-  ArrowRight, 
-  Loader2, 
-  Tag, 
+import {
+  Eye,
+  Calendar,
+  BookOpen,
+  ArrowRight,
+  Loader2,
+  Tag,
   Sparkles,
   ArrowUpRight,
   TrendingUp,
   Newspaper
 } from "lucide-react";
 import { api } from "../../lib/api";
+
 
 interface Post {
   _id: string;
@@ -39,15 +40,15 @@ export default function PublicBlogHomePage() {
 
   React.useEffect(() => {
     let active = true;
-    
+
     const fetchPublishedPosts = async () => {
       try {
         setIsLoading(true);
         setErrorMsg(null);
-        
+
         // Fetch only published blogs
         const response = await api.get<any>("/blogs?status=published");
-        
+
         if (active) {
           if (response && Array.isArray(response.data)) {
             // Sort by createdAt descending to show newest first
@@ -79,14 +80,14 @@ export default function PublicBlogHomePage() {
 
   // Filter out any non-published posts just as safety
   const publishedPosts = posts.filter((post) => post.status === "published");
-  
+
   // Choose the featured post (newest) if available
   const featuredPost = publishedPosts[0];
   const secondaryPosts = publishedPosts.slice(1);
 
   return (
     <div className="space-y-16 animate-fade-in font-sans text-neutral-100 pb-16">
-      
+
       {/* Editorial Hero Banner */}
       <section className="relative rounded-3xl overflow-hidden py-16 md:py-24 px-6 md:px-12 bg-neutral-900 border border-neutral-850/80 shadow-2xl">
         <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/10 via-transparent to-transparent pointer-events-none" />
@@ -112,7 +113,7 @@ export default function PublicBlogHomePage() {
               <span>Get Started Writing</span>
               <ArrowUpRight className="h-4 w-4" />
             </Link>
-            
+
             <a
               href="#recent-posts"
               className="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-xs font-bold text-neutral-300 bg-neutral-950 border border-neutral-800 hover:bg-neutral-900 transition-all focus:outline-none"
@@ -132,7 +133,7 @@ export default function PublicBlogHomePage() {
               FEATURED STORY
             </h2>
           </div>
-          
+
           <div className="group relative bg-neutral-900/60 border border-neutral-850/60 rounded-3xl overflow-hidden hover:border-neutral-800 transition-all duration-300 grid grid-cols-1 md:grid-cols-2 gap-8 shadow-xl">
             <div className="aspect-video md:aspect-auto w-full min-h-[260px] relative overflow-hidden bg-neutral-950">
               <img
@@ -239,7 +240,7 @@ export default function PublicBlogHomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {publishedPosts.map((post) => {
               return (
-                <article 
+                <article
                   key={post._id}
                   className="group bg-neutral-900/40 border border-neutral-850/50 rounded-2xl overflow-hidden hover:border-neutral-800 transition-all duration-300 flex flex-col shadow-md hover:shadow-xl"
                 >
@@ -286,7 +287,7 @@ export default function PublicBlogHomePage() {
 
                     <div className="pt-4 border-t border-neutral-850/30 flex items-center justify-between">
                       <span className="text-[11px] text-neutral-400 font-medium">By {post.author || "Guest"}</span>
-                      
+
                       <Link
                         href={`/posts/${post._id}`}
                         className="inline-flex items-center gap-1 text-[11px] font-extrabold text-emerald-400 hover:text-emerald-300 transition-colors group/link"
