@@ -1,13 +1,14 @@
 // /frontend/src/lib/api.ts
 
 const isServer = typeof window === "undefined";
-// const API_BASE_URL = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
 
-// const BASE_URL = isServer
-//   ? process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api"
-//   : "/api";
+const isDevelopment = process.env.NODE_ENV === 'development';
 
-const SERVER_API_URL = process.env.API_BASE_URL || "https://anthony-blog-dpl6.onrender.com/api" || "http://localhost:5000/api" ;
+export const SERVER_API_URL = process.env.API_BASE_URL
+  ? process.env.API_BASE_URL // Priority 1: Manual override
+  : isDevelopment
+    ? "http://localhost:5000/api"  // Priority 2: Dev
+    : "https://anthony-blog-dpl6.onrender.com/api"; // Priority 3: Production
 
 // Client-side calls should always use the proxy (relative path)
 const BASE_URL = isServer ? SERVER_API_URL : "/api";
@@ -194,9 +195,9 @@ export const api = {
 
 export async function getSiteName(): Promise<string> {
   const defaultName = "Anthony Blog";
-  const apiBase = process.env.API_BASE_URL || "https://anthony-blog-dpl6.onrender.com" || "http://localhost:5000";
+  const apiBase = SERVER_API_URL
 
-  const targetUrl = `${apiBase}/api/settings`;
+  const targetUrl = `${apiBase}/settings`;
   console.log(`[SSR Debug] Attempting to fetch site name from: ${targetUrl}`);
 
   try {

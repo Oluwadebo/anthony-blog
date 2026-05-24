@@ -2,18 +2,20 @@ import * as React from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { SiteProvider } from "../../context/siteprovide";
+import { SERVER_API_URL } from "../../lib/api";
+
 
 
 async function getSiteName(): Promise<string> {
   const defaultName = "Anthony Blog";
-  const publicApiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const apiUrl = publicApiUrl || "https://anthony-blog-dpl6.onrender.com" || "http://localhost:5000" ;
+  // const publicApiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiUrl = SERVER_API_URL;
 
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 1000);
 
-    const res = await fetch(`${apiUrl}/api/settings`, {
+    const res = await fetch(`${apiUrl}/settings`, {
       signal: controller.signal,
       next: { revalidate: 0 } // Cache results for 0 seconds
     });

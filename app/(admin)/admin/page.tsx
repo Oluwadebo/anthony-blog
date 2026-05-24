@@ -1,19 +1,19 @@
 // /app/admin/page.tsx
 "use client";
 
-import * as React from "react";
 import {
-  FileText,
-  BarChart3,
-  Image as ImageIcon,
-  PlusCircle,
   ArrowUpRight,
-  TrendingUp,
-  Eye,
+  BarChart3,
   CheckCircle,
   Database,
-  Link
+  Eye,
+  FileText,
+  Image as ImageIcon,
+  PlusCircle,
+  TrendingUp,
 } from "lucide-react";
+import * as React from "react";
+import { useSite } from "../../../context/siteprovide";
 import { api } from "../../../lib/api";
 
 interface PostMetric {
@@ -30,6 +30,7 @@ export default function AdminDashboardPage() {
   const [publishedCount, setPublishedCount] = React.useState(0);
   const [totalViewerCount, setTotalViewerCount] = React.useState(0);
   const [latestPosts, setLatestPosts] = React.useState<PostMetric[]>([]);
+  const { siteName, updateSiteName } = useSite();
 
   // Fetch metrics upon mounting
   React.useEffect(() => {
@@ -47,13 +48,13 @@ export default function AdminDashboardPage() {
           let published = 0;
           let totalViews = 0;
 
-          list.forEach(post => {
+          list.forEach((post) => {
             if (post.status === "draft") {
               drafts += 1;
             } else if (post.status === "published") {
               published += 1;
             }
-            totalViews += (post.views || 0);
+            totalViews += post.views || 0;
           });
 
           setDraftCount(drafts);
@@ -78,7 +79,7 @@ export default function AdminDashboardPage() {
       change: "+0% this week",
       icon: CheckCircle,
       iconColor: "text-emerald-400",
-      bgColor: "bg-emerald-500/10 border-emerald-500/15"
+      bgColor: "bg-emerald-500/10 border-emerald-500/15",
     },
     {
       name: "Prose Drafts & Ideation",
@@ -86,7 +87,7 @@ export default function AdminDashboardPage() {
       change: "Local staging active",
       icon: FileText,
       iconColor: "text-amber-400",
-      bgColor: "bg-amber-500/10 border-amber-500/15"
+      bgColor: "bg-amber-500/10 border-amber-500/15",
     },
     {
       name: "Cumulative Page Views",
@@ -94,7 +95,7 @@ export default function AdminDashboardPage() {
       change: "Traffic direct CDN flow",
       icon: Eye,
       iconColor: "text-blue-400",
-      bgColor: "bg-blue-500/10 border-blue-500/15"
+      bgColor: "bg-blue-500/10 border-blue-500/15",
     },
     {
       name: "Aggregate Database Objects",
@@ -102,9 +103,13 @@ export default function AdminDashboardPage() {
       change: "MongoDB Host status okay",
       icon: Database,
       iconColor: "text-purple-400",
-      bgColor: "bg-purple-500/10 border-purple-500/15"
-    }
+      bgColor: "bg-purple-500/10 border-purple-500/15",
+    },
   ];
+
+  const nameParts = (siteName || "Anthony Blog").split(" ");
+  const firstPart = nameParts[0];
+  const secondPart = nameParts.slice(1).join(" ");
 
   return (
     <div className="space-y-8 font-sans antialiased text-white">
@@ -116,7 +121,14 @@ export default function AdminDashboardPage() {
           </h1>
           <p className="text-sm text-neutral-400 mt-1.5 flex items-center gap-1.5 font-sans">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-            Terminal active. You hold sovereign administrative access to Anthony Blog CMS nodes.
+            Terminal active. You hold sovereign administrative access to{" "}
+            <span className="text-zinc-900 dark:text-white ">
+              {firstPart}
+            {secondPart && (
+              <span className="ml-1 text-emerald-500">{secondPart}</span>
+            )}{" "}
+            </span>
+            CMS nodes.
           </p>
         </div>
 
@@ -197,13 +209,18 @@ export default function AdminDashboardPage() {
           ) : latestPosts.length === 0 ? (
             <div className="py-12 text-center">
               <FileText className="h-8 w-8 text-neutral-700 mx-auto mb-2" />
-              <p className="text-sm text-neutral-400 font-medium">No blog posts registered yet</p>
-              <p className="text-xs text-neutral-550 mt-1">Get started by composing your very first story today!</p>
+              <p className="text-sm text-neutral-400 font-medium">
+                No blog posts registered yet
+              </p>
+              <p className="text-xs text-neutral-550 mt-1">
+                Get started by composing your very first story today!
+              </p>
             </div>
           ) : (
             <div className="space-y-3">
               {latestPosts.map((post) => (
-                <div key={post.id}
+                <div
+                  key={post.id}
                   className="flex items-center justify-between p-4 bg-neutral-950/40 rounded-xl border border-neutral-850/40 hover:border-neutral-800 transition-all group"
                 >
                   <div className="flex flex-col min-w-0 pr-4">
@@ -216,11 +233,15 @@ export default function AdminDashboardPage() {
                   </div>
 
                   <div className="flex items-center gap-4 flex-shrink-0">
-                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider border
-                      ${post.status === "published"
-                        ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                        : "bg-amber-500/10 text-amber-400 border-amber-500/20"}
-                    `}>
+                    <span
+                      className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider border
+                      ${
+                        post.status === "published"
+                          ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                          : "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                      }
+                    `}
+                    >
                       {post.status}
                     </span>
 
