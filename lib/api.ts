@@ -201,8 +201,8 @@ export async function getSiteName(): Promise<string> {
 
   try {
     const res = await fetch(targetUrl, {
-      next: { revalidate: 30 },
-      cache: 'no-store',
+      next: { revalidate: 20 },
+      // cache: 'no-store',
     });
 
     if (!res.ok) {

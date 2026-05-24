@@ -2,14 +2,14 @@
 "use client";
 
 import * as React from "react";
-import { 
-  FileText, 
-  BarChart3, 
-  Image as ImageIcon, 
-  PlusCircle, 
-  ArrowUpRight, 
-  TrendingUp, 
-  Eye, 
+import {
+  FileText,
+  BarChart3,
+  Image as ImageIcon,
+  PlusCircle,
+  ArrowUpRight,
+  TrendingUp,
+  Eye,
   CheckCircle,
   Database,
   Link
@@ -38,15 +38,15 @@ export default function AdminDashboardPage() {
         setLoadingMetrics(true);
         // Standard API query to base catalog returning standard response
         const listResponse = await api.get<any>("/blogs?status=all");
-        
+
         if (listResponse && Array.isArray(listResponse.data)) {
           const list: PostMetric[] = listResponse.data;
           setTotalPostsCount(list.length);
-          
+
           let drafts = 0;
           let published = 0;
           let totalViews = 0;
-          
+
           list.forEach(post => {
             if (post.status === "draft") {
               drafts += 1;
@@ -121,7 +121,7 @@ export default function AdminDashboardPage() {
         </div>
 
         <div className="flex items-center gap-2">
-          <button 
+          <button
             onClick={() => {
               if (typeof window !== "undefined") {
                 window.location.href = "/admin/posts?create=true";
@@ -140,7 +140,7 @@ export default function AdminDashboardPage() {
         {stats.map((stat, i) => {
           const Icon = stat.icon;
           return (
-            <div 
+            <div
               key={i}
               className={`p-6 rounded-2xl border bg-neutral-900 border-neutral-850 shadow-lg relative overflow-hidden group transition-all duration-300 hover:border-neutral-750`}
             >
@@ -181,7 +181,7 @@ export default function AdminDashboardPage() {
                 Recent Publication Nodes
               </h2>
             </div>
-            <a 
+            <a
               href="/admin/posts"
               className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-0.5"
             >
@@ -203,8 +203,7 @@ export default function AdminDashboardPage() {
           ) : (
             <div className="space-y-3">
               {latestPosts.map((post) => (
-                <div 
-                  key={post.id}
+                <div key={post.id}
                   className="flex items-center justify-between p-4 bg-neutral-950/40 rounded-xl border border-neutral-850/40 hover:border-neutral-800 transition-all group"
                 >
                   <div className="flex flex-col min-w-0 pr-4">
@@ -224,7 +223,7 @@ export default function AdminDashboardPage() {
                     `}>
                       {post.status}
                     </span>
-                    
+
                     <div className="flex items-center gap-1.5 text-xs text-neutral-400 font-mono">
                       <Eye className="h-3.5 w-3.5 text-neutral-600" />
                       <span>{post.views || 0}</span>
@@ -243,7 +242,7 @@ export default function AdminDashboardPage() {
             <h2 className="text-xs font-semibold text-neutral-200 uppercase tracking-widest font-mono border-b border-neutral-850/50 pb-4">
               Terminal Quick Links
             </h2>
-            
+
             <div className="grid grid-cols-1 gap-2.5 text-xs">
               <button
                 onClick={() => {
@@ -275,7 +274,7 @@ export default function AdminDashboardPage() {
           <div className="p-6 rounded-2xl border border-neutral-850 bg-neutral-900 shadow-md relative overflow-hidden">
             {/* Ambient emerald neon aura effect */}
             <div className="absolute top-0 right-0 h-16 w-16 bg-emerald-500/5 rounded-full blur-xl" />
-            
+
             <div className="flex items-center gap-3">
               <span className="p-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-lg">
                 <TrendingUp className="h-4 w-4" />

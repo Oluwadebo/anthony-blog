@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Inter, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "../context/AuthContext";
-import { SiteProvider } from "../context/siteprovide";
 import { ThemeProvider } from "next-themes";
 import { getSiteName } from "@/lib/api";
 
@@ -39,9 +38,9 @@ export default async function RootLayout({
       <body suppressHydrationWarning className="bg-neutral-950 text-neutral-100 min-h-screen flex flex-col font-sans transition-colors duration-300">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <AuthProvider>
-            <SiteProvider initialName={siteName}>
+
               {children}
-            </SiteProvider>
+
           </AuthProvider>
         </ThemeProvider>
       </body>

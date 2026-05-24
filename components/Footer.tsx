@@ -3,8 +3,11 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { useSite } from "../context/siteprovide";
 
-export default function Footer({ siteName = "Anthony Blog" }: { siteName?: string }) {
+
+export default function Footer() {
+  const { siteName } = useSite();
   const currentYear = new Date().getFullYear();
 
   // Extract first letter for the stylized logo block

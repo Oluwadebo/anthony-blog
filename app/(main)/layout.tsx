@@ -1,6 +1,8 @@
 import * as React from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import { SiteProvider } from "../../context/siteprovide";
+
 
 async function getSiteName(): Promise<string> {
   const defaultName = "Anthony Blog";
@@ -9,11 +11,11 @@ async function getSiteName(): Promise<string> {
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2000);
+    const timeoutId = setTimeout(() => controller.abort(), 1000);
 
     const res = await fetch(`${apiUrl}/api/settings`, {
       signal: controller.signal,
-      next: { revalidate: 30 } // Cache results for 30 seconds
+      next: { revalidate: 0 } // Cache results for 0 seconds
     });
 
     clearTimeout(timeoutId);
@@ -39,14 +41,16 @@ export default async function MainLayout({
 
   return (
     <>
-      <Navbar siteName={siteName} />
+    <SiteProvider initialName={siteName}>
+      <Navbar/>
 
       {/* Core App Display Canvas */}
       <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16">
         {children}
       </main>
 
-      <Footer siteName={siteName} />
+      <Footer />
+    </SiteProvider>
     </>
   );
 }
