@@ -192,24 +192,28 @@ export const api = {
     request<T>(endpoint, { method: "DELETE", ...options }),
 };
 
-
-// lib/api.ts
-
 export async function getSiteName(): Promise<string> {
   const defaultName = "Anthony Blog";
   const apiBase = process.env.API_BASE_URL || "https://anthony-blog-dpl6.onrender.com" || "http://localhost:5000";
 
+  const targetUrl = `${apiBase}/api/settings`;
+  console.log(`[SSR Debug] Attempting to fetch site name from: ${targetUrl}`);
+
   try {
-    const res = await fetch(`${apiBase}/api/settings`, {
+    const res = await fetch(targetUrl, {
       next: { revalidate: 30 },
+      cache: 'no-store',
     });
 
-    if (!res.ok) throw new Error("Failed to fetch settings");
+    if (!res.ok) {
+       console.error(`[SSR Debug] Server responded with status: ${res.status}`);
+       throw new Error("Failed to fetch settings");
+    }
 
     const data = await res.json();
     return data?.settings?.siteName || defaultName;
   } catch (error) {
-    console.error("Failed to retrieve siteName:", error);
+    console.error("[SSR Debug] Fetch failed with error:", error);
     return defaultName;
   }
 }

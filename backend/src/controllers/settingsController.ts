@@ -37,10 +37,6 @@ export const getSettings = async (req: Request, res: Response) => {
   }
 };
 
-/**
- * PUT /api/settings
- * Update existing site settings (requires authentication).
- */
 export const updateSettings = async (req: Request, res: Response) => {
   try {
     const validationResult = settingsUpdateSchema.safeParse(req.body);
