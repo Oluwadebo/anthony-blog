@@ -21,6 +21,9 @@ const sourceSerif = Source_Serif_4({
 export const metadata: Metadata = {
   title: "Anthony Blog - High-Fidelity Publisher CMS",
   description: "A dark-themed, sleek publishing medium. Secure administrative dashboard, image-uploader module, and fully responsive blog nodes.",
+  openGraph: {
+    images: ["https://anthony-blog-amber.vercel.app/og.png"],
+  },
 };
 
 export default async function RootLayout({
